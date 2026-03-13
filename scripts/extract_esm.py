@@ -3,9 +3,11 @@ import pandas as pd
 import torch
 import esm
 from tqdm import tqdm
+from pathlib import Path
 
-DATA_PATH = r"..\data\mutants.csv"
-OUT_X = r"..\data\X_esm.npy"
+BASE_DIR = Path(__file__).resolve().parents[1]
+DATA_PATH = BASE_DIR / "data" / "mutants.csv"
+OUT_X = BASE_DIR / "data" / "X_esm.npy"
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print("Device:", device)

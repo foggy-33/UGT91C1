@@ -4,10 +4,12 @@ import torch
 import esm
 import joblib
 from tqdm import tqdm
+from pathlib import Path
 
-CAND_PATH = r"..\data\new_candidates.csv"
-MODEL_PATH = r"..\models\xgb_esm.pkl"
-OUT_PATH = r"..\results\predictions.csv"
+BASE_DIR = Path(__file__).resolve().parents[1]
+CAND_PATH = BASE_DIR / "data" / "new_candidates.csv"
+MODEL_PATH = BASE_DIR / "models" / "xgb_esm.pkl"
+OUT_PATH = BASE_DIR / "results" / "predictions.csv"
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -36,6 +38,7 @@ pred = xgb_model.predict(X_new)
 
 df["pred_activity"] = pred
 df = df.sort_values("pred_activity", ascending=False)
+OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
 df.to_csv(OUT_PATH, index=False)
 print("Saved:", OUT_PATH)
 print(df.head(10))

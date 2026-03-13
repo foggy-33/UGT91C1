@@ -1,11 +1,13 @@
 import re
 import pandas as pd
+from pathlib import Path
 
-XLSX_PATH = r"..\data\raw.xlsx"
-WT_FASTA = r"..\data\wt.fasta"
-OUT_CSV = r"..\data\mutants.csv"
+BASE_DIR = Path(__file__).resolve().parents[1]
+XLSX_PATH = BASE_DIR / "data" / "raw.xlsx"
+WT_FASTA = BASE_DIR / "data" / "wt.fasta"
+OUT_CSV = BASE_DIR / "data" / "mutants.csv"
 
-def read_fasta(path: str) -> str:
+def read_fasta(path: Path) -> str:
     seq = []
     with open(path, "r", encoding="utf-8") as f:
         for line in f:
@@ -49,9 +51,16 @@ df = pd.read_excel(XLSX_PATH)
 col_variant = None
 col_activity = None
 for c in df.columns:
-    if "突变" in str(c):
+    c_str = str(c).strip()
+    c_low = c_str.lower()
+    if "突变" in c_str or c_low in {"variant", "mutation", "mutant"}:
         col_variant = c
-    if "比酶活" in str(c) or "mU" in str(c) or "酶活" in str(c):
+    if (
+        "比酶活" in c_str
+        or "mU" in c_str
+        or "酶活" in c_str
+        or c_low in {"activity", "activity_rel", "relative_activity"}
+    ):
         col_activity = c
 
 if col_variant is None or col_activity is None:

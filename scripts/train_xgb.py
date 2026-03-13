@@ -4,10 +4,12 @@ import joblib
 from sklearn.model_selection import KFold
 from sklearn.metrics import mean_squared_error
 import xgboost as xgb
+from pathlib import Path
 
-DATA_PATH = r"..\data\mutants.csv"
-X_PATH = r"..\data\X_esm.npy"
-MODEL_OUT = r"..\models\xgb_esm.pkl"
+BASE_DIR = Path(__file__).resolve().parents[1]
+DATA_PATH = BASE_DIR / "data" / "mutants.csv"
+X_PATH = BASE_DIR / "data" / "X_esm.npy"
+MODEL_OUT = BASE_DIR / "models" / "xgb_esm.pkl"
 
 df = pd.read_csv(DATA_PATH)
 X = np.load(X_PATH)
@@ -36,5 +38,6 @@ print("5-fold RMSE:", sum(rmses)/len(rmses), "all:", rmses)
 
 # 用全数据训练最终模型
 model.fit(X, y)
+MODEL_OUT.parent.mkdir(parents=True, exist_ok=True)
 joblib.dump(model, MODEL_OUT)
 print("Saved model:", MODEL_OUT)
