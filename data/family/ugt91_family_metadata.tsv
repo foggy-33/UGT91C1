@@ -1,0 +1,77 @@
+Entry	Entry Name	Protein names	Organism	Length	Gene Names
+B3VI56	U91D2_STERE	UDP-glycosyltransferase 91D2 (EC 2.4.1.-)	Stevia rebaudiana (Stevia) (Eupatorium rebaudianum)	473	UGT91D2
+Q940V3	U91A1_ARATH	UDP-glycosyltransferase 91A1 (EC 2.4.1.-)	Arabidopsis thaliana (Mouse-ear cress)	470	UGT91A1 At2g22590 T9I22.3
+Q9LSM0	U91B1_ARATH	UDP-glycosyltransferase 91B1 (EC 2.4.1.-)	Arabidopsis thaliana (Mouse-ear cress)	466	UGT91B1 At5g65550 K21L13.6
+Q9LTA3	U91C1_ARATH	UDP-glycosyltransferase 91C1 (EC 2.4.1.-)	Arabidopsis thaliana (Mouse-ear cress)	460	UGT91C1 At5g49690 K2I5.5
+Q6VAA8	U91D1_STERE	UDP-glycosyltransferase 91D1 (EC 2.4.1.-)	Stevia rebaudiana (Stevia) (Eupatorium rebaudianum)	485	UGT91D1
+A0A0X9IIN0	A0A0X9IIN0_CAMSI	Glycosyltransferase (EC 2.4.1.-)	Camellia sinensis (Tea plant) (Thea sinensis)	483	UGT91A4
+A0AAV6NCT8	A0AAV6NCT8_9ROSI	UDP-glycosyltransferase 91A1	Cucurbita argyrosperma subsp. sororia	847	UGT91A1 SDJN03_11466
+A0A067XT88	A0A067XT88_CICAR	UDP-glycosyltransferase	Cicer arietinum (Chickpea) (Garbanzo)	467	UGT91M1
+A0A067XTJ8	A0A067XTJ8_CICAR	Soyasaponin III rhamnosyltransferase (UDP-glycosyltransferase)	Cicer arietinum (Chickpea) (Garbanzo)	471	UGT91H7
+A0A067XTX4	A0A067XTX4_CICAR	Soyasaponin III rhamnosyltransferase (UDP-glycosyltransferase)	Cicer arietinum (Chickpea) (Garbanzo)	478	UGT91H8
+A0A072UTM6	A0A072UTM6_MEDTR	Putative soyasaponin III rhamnosyltransferase (EC 2.4.1.273) (UDP-glucosyltransferase family protein) (UDP-glucuronosyl/UDP-glucosyltransferase)	Medicago truncatula (Barrel medic) (Medicago tribuloides)	466	UGT91H12 25494145 MTR_4g123553 MtrunA17_Chr4g0069611
+A0A0R0HRL5	A0A0R0HRL5_SOYBN	Glycosyltransferase	Glycine max (Soybean) (Glycine hispida)	464	UGT91H9 SG-3 GLYMA_10G104700
+A0A0R0INR5	A0A0R0INR5_SOYBN	Glycosyltransferase	Glycine max (Soybean) (Glycine hispida)	472	UGT91H4 GLYMA_08G181000
+A0A0X9FCW5	A0A0X9FCW5_CAMSI	Flavonol glucosyltransferase (UDP-glycosyltransferase 91Q1)	Camellia sinensis (Tea plant) (Thea sinensis)	469	UGT91Q1 FGT
+A0A0X9H346	A0A0X9H346_CAMSI	UDP-glycosyltransferase 91A5	Camellia sinensis (Tea plant) (Thea sinensis)	487	UGT91A5
+A0A1J6ILW7	A0A1J6ILW7_NICAT	UDP-glycosyltransferase g05573 (Udp-glycosyltransferase 91c1)	Nicotiana attenuata (Coyote tobacco)	472	UGT91C1_1 A4A49_05573 NaUGT_g05573
+A0A1J6KX71	A0A1J6KX71_NICAT	Udp-glycosyltransferase 91c1	Nicotiana attenuata (Coyote tobacco)	232	UGT91C1_0 A4A49_54088
+A0A2H4GSC7	A0A2H4GSC7_NICAT	UDP-glycosyltransferase g00527 (Udp-glycosyltransferase 91a1)	Nicotiana attenuata (Coyote tobacco)	468	UGT91A1_0 A4A49_00527 NaUGT_g00527
+A0A2I0BGA6	A0A2I0BGA6_9ASPA	UDP-glycosyltransferase 91A1	Apostasia shenzhenica	141	UGT91A1 AXF42_Ash003462
+A0A2I0VHC3	A0A2I0VHC3_9ASPA	UDP-glycosyltransferase 91C1	Dendrobium catenatum	98	UGT91C1 MA16_Dca028836
+A0A2R4LMD7	A0A2R4LMD7_BARVU	Putative UDP-glucosyltransferase UGT91A10	Barbarea vulgaris subsp. arcuata	469	UGT91A10
+A0A2R4LME1	A0A2R4LME1_BARVU	Putative UDP-glucosyltransferase UGT91C3	Barbarea vulgaris subsp. arcuata	466	UGT91C3
+A0A2R4LME3	A0A2R4LME3_BARVU	Glycosyltransferase (EC 2.4.1.-)	Barbarea vulgaris subsp. arcuata	480	UGT91B11
+A0A2Z6BYW7	A0A2Z6BYW7_SOYBN	Glycosyltransferase	Glycine max (Soybean) (Glycine hispida)	472	UGT91H4
+A0A2Z6BZG5	A0A2Z6BZG5_SOYBN	Glycosyltransferase	Glycine max (Soybean) (Glycine hispida)	225	UGT91H9
+A0A314L8X4	A0A314L8X4_NICAT	Udp-glycosyltransferase 91a1	Nicotiana attenuata (Coyote tobacco)	484	UGT91A1_1 A4A49_00526
+A0A371H8L1	A0A371H8L1_MUCPR	UDP-glycosyltransferase 91A1	Mucuna pruriens (Velvet bean) (Dolichos pruriens)	466	UGT91A1 CR513_17862
+A0A3G3LXT4	A0A3G3LXT4_PRUDU	UDP-glycosyltransferase	Prunus dulcis (Almond) (Amygdalus dulcis)	477	UGT91C4
+A0A3G3LXY9	A0A3G3LXY9_PRUDU	UDP-glycosyltransferase	Prunus dulcis (Almond) (Amygdalus dulcis)	463	UGT91R7
+A0A3L6E1R9	A0A3L6E1R9_MAIZE	UDP-glycosyltransferase 91A1	Zea mays (Maize)	125	UGT91A1 Zm00014a_008393
+A0A3Q9EMJ4	A0A3Q9EMJ4_9POAL	Glycosyltransferase (EC 2.4.1.-)	Avena strigosa (black oat)	486	UGT91G15
+A0A3Q9EML5	A0A3Q9EML5_9POAL	UGT91F11	Avena strigosa (black oat)	482	UGT91F11
+A0A438E3C3	A0A438E3C3_VITVI	UDP-glycosyltransferase 91A1	Vitis vinifera (Grape)	127	UGT91A1_3 CK203_096564
+A0A438E875	A0A438E875_VITVI	UDP-glycosyltransferase 91C1	Vitis vinifera (Grape)	461	UGT91C1_0 CK203_072322
+A0A438E8I1	A0A438E8I1_VITVI	UDP-glycosyltransferase 91C1	Vitis vinifera (Grape)	172	UGT91C1_8 CK203_072324
+A0A438E8J8	A0A438E8J8_VITVI	UDP-glycosyltransferase 91C1	Vitis vinifera (Grape)	94	UGT91C1_1 CK203_072323
+A0A438E8M0	A0A438E8M0_VITVI	UDP-glycosyltransferase 91C1	Vitis vinifera (Grape)	251	UGT91C1_3 CK203_072325
+A0A438G6Y2	A0A438G6Y2_VITVI	UDP-glycosyltransferase 91A1	Vitis vinifera (Grape)	89	UGT91A1_0 CK203_061885
+A0A438GSD0	A0A438GSD0_VITVI	UDP-glycosyltransferase 91A1	Vitis vinifera (Grape)	202	UGT91A1_5 CK203_057874
+A0A438J1M9	A0A438J1M9_VITVI	UDP-glycosyltransferase 91A1	Vitis vinifera (Grape)	136	UGT91A1_6 CK203_023162
+A0A438J953	A0A438J953_VITVI	UDP-glycosyltransferase 91C1	Vitis vinifera (Grape)	306	UGT91C1_2 CK203_013610
+A0A438J9A3	A0A438J9A3_VITVI	UDP-glycosyltransferase 91C1	Vitis vinifera (Grape)	118	UGT91C1_6 CK203_013613
+A0A438J9B5	A0A438J9B5_VITVI	UDP-glycosyltransferase 91C1	Vitis vinifera (Grape)	461	UGT91C1_7 CK203_013612
+A0A438J9F6	A0A438J9F6_VITVI	UDP-glycosyltransferase 91C1	Vitis vinifera (Grape)	393	UGT91C1_4 CK203_013614
+A0A438KQV0	A0A438KQV0_VITVI	UDP-glycosyltransferase 91A1	Vitis vinifera (Grape)	480	UGT91A1_7 CK203_000583
+A0A438KQV6	A0A438KQV6_VITVI	UDP-glycosyltransferase 91A1	Vitis vinifera (Grape)	463	UGT91A1_4 CK203_000580
+A0A438KQV9	A0A438KQV9_VITVI	UDP-glycosyltransferase 91A1	Vitis vinifera (Grape)	608	UGT91A1_1 CK203_000589
+A0A438KQX6	A0A438KQX6_VITVI	UDP-glycosyltransferase 91A1	Vitis vinifera (Grape)	479	UGT91A1_2 CK203_000588
+A0A5A4WQ84	A0A5A4WQ84_GLYUR	UDP-glycosyltransferase 91H11	Glycyrrhiza uralensis (Chinese licorice) (Glycyrrhiza shiheziensis)	474	UGT91H11
+A0A896APG7	A0A896APG7_9GENT	Glycosyltransferase	Rubia yunnanensis	462	UGT91AD1
+A0A896AUK8	A0A896AUK8_9GENT	Glycosyltransferase (EC 2.4.1.-)	Rubia yunnanensis	459	UGT91AC1
+A0AAP0BP87	A0AAP0BP87_9ASPA	UDP-glycosyltransferase 91C1	Platanthera zijinensis	470	UGT91C1 KSP39_PZI006780
+A0AAV6ML16	A0AAV6ML16_9ROSI	UDP-glycosyltransferase 91D2	Cucurbita argyrosperma subsp. sororia	467	UGT91D2 SDJN03_22629
+A0AAV6N2Q4	A0AAV6N2Q4_9ROSI	UDP-glycosyltransferase 91C1	Cucurbita argyrosperma subsp. sororia	1232	UGT91C1 SDJN03_14048
+A0AAV6N9F3	A0AAV6N9F3_9ROSI	UDP-glycosyltransferase 91A1	Cucurbita argyrosperma subsp. sororia	470	UGT91A1 SDJN03_11465
+A0AAV9CSU1	A0AAV9CSU1_ACOCL	UDP-glycosyltransferase 91C1	Acorus calamus (Sweet flag)	142	UGT91C1 QJS10_CPB17g02494
+A0AAV9CSY0	A0AAV9CSY0_ACOCL	UDP-glycosyltransferase 91A1	Acorus calamus (Sweet flag)	247	UGT91A1 QJS10_CPB17g02495
+A0AAV9FAC2	A0AAV9FAC2_ACOCL	UDP-glycosyltransferase 91A1	Acorus calamus (Sweet flag)	681	UGT91A1 QJS10_CPA02g00137
+A0AAW0JHX5	A0AAW0JHX5_QUESU	Udp-glycosyltransferase 91c1	Quercus suber (Cork oak)	100	UGT91C1_0 CFP56_032177
+A0AAW0JT36	A0AAW0JT36_QUESU	Udp-glycosyltransferase 91a1	Quercus suber (Cork oak)	340	UGT91A1_5 CFP56_028592
+A0AAW0KF79	A0AAW0KF79_QUESU	Udp-glycosyltransferase 91c1	Quercus suber (Cork oak)	443	UGT91C1_3 CFP56_022394
+A0AAW0KMH0	A0AAW0KMH0_QUESU	Udp-glycosyltransferase 91c1	Quercus suber (Cork oak)	117	UGT91C1_2 CFP56_016769
+A0AAW0KNN2	A0AAW0KNN2_QUESU	Udp-glycosyltransferase 91a1	Quercus suber (Cork oak)	67	UGT91A1_1 CFP56_016772
+A0AAW0KPQ8	A0AAW0KPQ8_QUESU	Udp-glycosyltransferase 91c1	Quercus suber (Cork oak)	212	UGT91C1_1 CFP56_016773
+A0AAW0LAS7	A0AAW0LAS7_QUESU	Udp-glycosyltransferase 91a1	Quercus suber (Cork oak)	246	UGT91A1_0 CFP56_005667
+A0AAW0LNQ6	A0AAW0LNQ6_QUESU	Udp-glycosyltransferase 91a1	Quercus suber (Cork oak)	365	UGT91A1_4 CFP56_038291
+A0AAW0LNR9	A0AAW0LNR9_QUESU	Udp-glycosyltransferase 91a1	Quercus suber (Cork oak)	477	UGT91A1_3 CFP56_038290
+A0AAW0M429	A0AAW0M429_QUESU	Udp-glycosyltransferase 91a1	Quercus suber (Cork oak)	529	UGT91A1_2 CFP56_013046
+A0ABR2LP18	A0ABR2LP18_9ASPA	UDP-glycosyltransferase 91C1	Platanthera guangdongensis	506	UGT91C1 KSP40_PGU021533
+A0ABR2M9J8	A0ABR2M9J8_9ASPA	UDP-glycosyltransferase 91C1	Platanthera guangdongensis	470	UGT91C1 KSP40_PGU008254
+D2D584	D2D584_MEDTR	GT4 (UDP-glucosyltransferase family protein) (UDP-glucuronosyl/UDP-glucosyltransferase)	Medicago truncatula (Barrel medic) (Medicago tribuloides)	473	11429236 UGT91H6 MTR_2g008225
+G7KID3	G7KID3_MEDTR	Putative soyasaponin III rhamnosyltransferase (EC 2.4.1.273) (UDP-glucosyltransferase family protein) (UDP-glucuronosyl/UDP-glucosyltransferase)	Medicago truncatula (Barrel medic) (Medicago tribuloides)	469	11441561 UGT91H13 MTR_6g042310 MtrunA17_Chr6g0466831
+I2BHD4	I2BHD4_LINUS	UDP-glycosyltransferase 1	Linum usitatissimum (Flax) (Linum humile)	472	UGT91C2
+I2BHD5	I2BHD5_LINUS	UDP-glycosyltransferase 1	Linum usitatissimum (Flax) (Linum humile)	477	UGT91J1
+I2BHD6	I2BHD6_LINUS	UDP-glycosyltransferase 1	Linum usitatissimum (Flax) (Linum humile)	458	UGT91J2
+I2BHD7	I2BHD7_LINUS	UDP-glycosyltransferase 1	Linum usitatissimum (Flax) (Linum humile)	464	UGT91J3

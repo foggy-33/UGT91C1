@@ -207,3 +207,241 @@ XGBoost 是一种梯度提升树算法，适合处理小样本、非线性、高
 ## 十二、总结
 
 本项目围绕 UGT91C1 的活性优化问题，构建了一条结合蛋白语言模型与机器学习的智能酶工程路线。通过 ESM 对突变体序列进行高维表征，再用 XGBoost 学习序列与活性之间的关系，可以在小样本条件下初步实现突变体活性预测与候选排序。结合实验验证与数据回灌，该项目有望形成一套适用于糖基转移酶优化的通用方法，为生物化工领域中的酶工程研究提供新的技术思路。
+
+## 十三、先验与硬约束接入说明
+
+当前代码已支持在 ESM embedding 外，拼接三类先验特征，并在预测阶段执行稳定性硬过滤：
+
+1. 进化先验（MSA / PSSM / 协变）
+2. 结构先验（口袋 / 几何）
+3. 稳定性先验（ΔΔG）
+
+### 1) 初始化先验模板文件
+
+运行：
+
+```bash
+python scripts/init_prior_templates.py
+```
+
+会生成：
+
+- `data/priors/pssm.csv`
+- `data/priors/coevolution.csv`
+- `data/priors/residue_structure.csv`
+- `data/priors/pocket.csv`
+- `data/priors/ddg.csv`
+- `data/prior_config.json`
+
+### 2) 按需填充真实先验
+
+- `pssm.csv`：每个 `pos` 对 20 个氨基酸的 PSSM 分数。
+- `coevolution.csv`：`pos_i,pos_j,score` 协变强度。
+- `residue_structure.csv`：每个残基到供体/受体/催化质心距离、ASA、二面角、二级结构。
+- `pocket.csv`：口袋体积与疏水性（全局特征）。
+- `ddg.csv`：可按 `variant` 或 `mutation` 提供 ΔΔG。
+- `prior_config.json`：可配置 `active_sites`，用于“突变位点到活性位点”协变特征。
+
+### 3) 训练与预测
+
+训练：
+
+```bash
+python scripts/train_xgb.py
+```
+
+预测：
+
+```bash
+python scripts/predict.py
+```
+
+预测输出：
+
+- `results/predictions.csv`：全部候选预测结果。
+- `results/predictions_filtered_by_ddg.csv`：应用 ΔΔG 硬过滤后保留的候选。
+
+说明：`scripts/predict.py` 里的 `DDG_THRESHOLD` 默认为 `2.0`，可按体系调整。
+
+## 十四、UGT91C1 家族序列检索与样本扩增
+
+当实验样本较少时，可以先检索 UGT91C1/UGT91 家族同源序列，再基于家族支持位点扩增候选库。
+
+### 1) 抓取家族序列（UniProt）
+
+```bash
+python scripts/fetch_family_sequences.py --max-records 3000
+```
+
+输出：
+
+- `data/family/ugt91_family_metadata.tsv`
+- `data/family/ugt91_family_raw.fasta`
+- `data/family/ugt91_family_dedup.fasta`
+
+### 2) 基于家族支持突变扩增候选样本
+
+```bash
+python scripts/augment_candidates_from_family.py --top-k-alt-per-pos 3 --min-support 2
+```
+
+输出：
+
+- `data/new_candidates_family.csv`：家族支持候选。
+- `data/new_candidates_merged.csv`：与原 `new_candidates.csv` 去重合并后候选。
+
+说明：
+
+- 当前版本使用全局比对将同源序列映射到 WT 位点，不要求同源序列与 WT 等长。
+- `scripts/predict.py` 会优先读取 `data/new_candidates_merged.csv`（若存在），否则回退到 `data/new_candidates.csv`。
+
+## 十五、用家族特征 + mutants 实验数据预测突变体活性
+
+### 1) 从家族序列构建进化先验（PSSM + 协变）
+
+```bash
+python scripts/build_family_evo_priors.py --min-mi 0.01 --top-k 30000
+```
+
+输出：
+
+- `data/priors/pssm.csv`
+- `data/priors/coevolution.csv`
+
+### 2) 用 mutants 实验数据训练并预测候选活性
+
+```bash
+python scripts/train_predict_family_model.py
+```
+
+默认行为：
+
+- 训练集：`data/mutants.csv`
+- 候选集：优先 `data/new_candidates_merged.csv`，不存在则用 `data/new_candidates.csv`
+- 目标列：优先 `activity_rel`，否则 `activity`
+
+输出：
+
+- `models/xgb_family_priors.pkl`
+- `results/predictions_family_model.csv`
+- `results/predictions_family_model_filtered_by_ddg.csv`
+- `results/family_model_cv_metrics.csv`
+
+## 十六、项目预测过程逻辑（详细版）
+
+本节描述当前项目从“候选突变体”到“预测结果文件”的完整链路，便于排查结果差异与口径问题。
+
+### 1) 任务定义与两类数据
+
+项目里有两类不同用途的数据：
+
+1. 训练/验证数据：`data/mutants.csv`  
+	含实验标签（`activity` 或 `activity_rel`），用于训练模型和做交叉验证。
+2. 候选预测数据：`data/new_candidates.csv` 或 `data/new_candidates_merged.csv`  
+	通常无实验标签，仅用于模型打分排序。
+
+关键点：
+
+- 5 折交叉验证衡量的是模型在 `mutants.csv` 上的泛化能力。
+- `results/predictions.csv` 是对候选库的外推预测，不能直接当作“验证集误差”。
+
+### 2) 候选集选择逻辑
+
+在 `scripts/predict.py` 中，候选输入优先级为：
+
+1. 若存在 `data/new_candidates_merged.csv`，优先使用它。
+2. 否则回退到 `data/new_candidates.csv`。
+
+因此，同一模型在不同时间预测，若候选文件不同，输出分布会明显变化。
+
+### 3) 单条样本如何进入模型
+
+每个候选变体会经过两路特征构建：
+
+1. ESM 序列表征（高维）
+	- 对 `sequence` 跑 ESM2（`scripts/predict.py` 中调用 `esm2_t33_650M_UR50D`）。
+	- 对 token 表征做平均池化，得到每条序列 embedding。
+2. 先验特征（低维）
+	- 通过 `scripts/prior_features.py` 的 `PriorFeatureBuilder` 构建进化/结构/稳定性先验。
+	- 先验来源于 `data/priors/*.csv` 与 `data/prior_config.json`。
+
+最终输入是拼接特征：
+
+- `X_all = [ESM embedding, prior features]`
+
+即“序列语义 + 生物先验”的联合表示。
+
+### 4) 模型推理与输出字段
+
+模型文件 `models/xgb_esm.pkl` 由 `scripts/train_xgb.py` 训练并保存。预测时：
+
+1. 读取模型包（含 XGBoost 模型与先验维度信息）。
+2. 对候选 `X_all` 做回归预测，生成 `pred_activity`。
+3. 依据 WT 活性换算得到 `pred_activity_rel`，并按 `pred_activity_rel` 降序排序。
+
+输出到：
+
+1. `results/predictions.csv`：所有候选。
+2. `results/predictions_filtered_by_ddg.csv`：执行 ΔΔG 硬过滤后的候选。
+
+说明：
+
+- `pred_activity`：绝对活性预测值（保留用于兼容旧流程）。
+- `pred_activity_rel`：与 `mutants.csv` 同口径的相对活性预测值（推荐用于排序与对比）。
+
+### 5) ΔΔG 硬过滤逻辑
+
+`scripts/predict.py` 中默认参数：
+
+- `DDG_THRESHOLD = 2.0`
+- `ALLOW_UNKNOWN_DDG = True`
+
+含义：
+
+1. 若样本可计算到 `ddg_total/ddg_max` 且超过阈值，则过滤。
+2. 若缺少 ΔΔG（未知），在 `ALLOW_UNKNOWN_DDG=True` 时保留。
+
+这会导致一个常见现象：
+
+- 当 `ddg.csv` 缺失较多时，`predictions.csv` 与 `predictions_filtered_by_ddg.csv` 可能几乎相同。
+
+### 6) 训练与验证口径（避免误差误读）
+
+项目中常见两种标签口径：
+
+1. 绝对活性：`activity`
+2. 相对活性：`activity_rel`（通常相对 WT 归一化）
+
+如果模型输出是绝对活性 `pred_activity`，则：
+
+1. 与 `activity` 比较是同口径。
+2. 与 `activity_rel` 直接比较是异口径，会出现“误差很大”的假象。
+
+若需要对比 `activity_rel`，应先换算：
+
+`pred_activity_rel = pred_activity / WT_activity`
+
+### 7) 为什么候选文件看起来“误差难评估”
+
+`results/predictions.csv` 的多数行是新候选，通常在 `mutants.csv` 中没有真值。  
+因此其准确度只能通过“重叠样本”评估，而不是全表评估。
+
+建议评估顺序：
+
+1. 先看 5 折 CV（训练集内泛化）。
+2. 再看预测文件与 mutants 的重叠样本误差（若重叠很少，仅作参考）。
+3. 最终以实验回测（湿实验）作为外推候选的真实性能判据。
+
+### 8) 推荐的结果解读流程
+
+对每轮预测，建议按以下顺序做决策：
+
+1. 从 `results/predictions_filtered_by_ddg.csv` 取 Top N。
+2. 检查 `design_tier`（优先从较低阶组合开始验证，风险更可控）。
+3. 检查 `family_support_sum`（优先家族支持高的方案）。
+4. 合并实验可行性约束（位点可构建性、结构风险、成本）。
+5. 输出小批量候选进入实验，实验结果再回灌训练集。
+
+这对应项目的闭环：
+
+预测 -> 实验 -> 回灌 -> 重训 -> 再预测

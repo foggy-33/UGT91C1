@@ -1,0 +1,3 @@
+file_tag,file_name,n_total,n_overlap_with_mutants,coverage,wt_activity_used_for_rel,mae_activity,rmse_activity,r2_activity,mae_activity_rel,rmse_activity_rel,r2_activity_rel,acc_abs_err_le_0.5,acc_abs_err_le_1.0
+predictions,predictions.csv,1358,3,0.0022091310751104565,3.7,0.00016466666666688687,0.0001782264477196146,0.9999999745086158,4.450450450477206e-05,4.8169310194674775e-05,0.9999999745086158,1.0,1.0
+predictions_filtered_by_ddg,predictions_filtered_by_ddg.csv,1358,3,0.0022091310751104565,3.7,0.00016466666666688687,0.0001782264477196146,0.9999999745086158,4.450450450477206e-05,4.8169310194674775e-05,0.9999999745086158,1.0,1.0
