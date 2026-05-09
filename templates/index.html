@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UGT91C1 突变体活性预测平台</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div>
+        <h1>突变体活性预测平台</h1>
+        <p class="subhead">上传 CSV 后完成特征构建、五折评估、活性预测、结果排序与导出。带有 activity_rel 或 activity 的数据会基于本次上传文件重新计算精准度。</p>
+      </div>
+      <div class="model-card">
+        <span>当前模型</span>
+        <strong>{{ target }}</strong>
+        <small>{{ feature_count }} 个特征 · XGBoost</small>
+      </div>
+    </header>
+
+    <section class="layout">
+      <aside class="upload-card" id="upload">
+        <div class="section-head">
+          <h2>上传数据</h2>
+          <a href="/api/sample">下载模板</a>
+        </div>
+
+        <form id="predictForm">
+          <label class="dropzone" id="dropzone">
+            <input id="fileInput" name="file" type="file" accept=".csv">
+            <span class="file-badge">CSV</span>
+            <strong id="fileName">选择或拖入 CSV 文件</strong>
+            <small>必须包含 variant；提供 activity_rel 或 activity 可计算五折精准度。</small>
+          </label>
+          <button class="primary-btn" type="submit">开始预测</button>
+        </form>
+
+        <div class="format-box">
+          <strong>格式示例</strong>
+          <code>variant,sequence,activity_rel</code>
+          <code>F208M,,2.00</code>
+        </div>
+      </aside>
+
+      <section class="main-panel">
+        <section class="card workflow" id="workflow">
+          <div class="section-head">
+            <h2>预测流程</h2>
+            <span id="workflowStatus">等待任务</span>
+          </div>
+          <div class="pipeline" id="pipeline">
+            <div class="step active"><span>01</span><p>读取 CSV</p></div>
+            <div class="step"><span>02</span><p>构建特征</p></div>
+            <div class="step"><span>03</span><p>五折预测</p></div>
+            <div class="step"><span>04</span><p>活性排序</p></div>
+            <div class="step"><span>05</span><p>导出报告</p></div>
+          </div>
+        </section>
+
+        <section class="stats-grid">
+          <div><span>输入记录</span><strong id="metricInput">-</strong></div>
+          <div><span>特征数量</span><strong id="metricFeatures">-</strong></div>
+          <div><span>最高预测活性</span><strong id="metricTop">-</strong></div>
+          <div><span>中位预测活性</span><strong id="metricMedian">-</strong></div>
+        </section>
+
+        <section class="card validation-card" id="validation">
+          <div class="section-head">
+            <h2>五折精准度评估</h2>
+            <span id="evalStatus">等待带标签数据</span>
+          </div>
+          <div class="eval-grid">
+            <div><span>RMSE</span><strong id="evalRmse">-</strong></div>
+            <div><span>MAE</span><strong id="evalMae">-</strong></div>
+            <div><span>R²</span><strong id="evalR2">-</strong></div>
+            <div><span>样本数</span><strong id="evalSamples">-</strong></div>
+          </div>
+          <canvas id="foldChart" width="980" height="220"></canvas>
+        </section>
+
+        <section id="emptyState" class="empty-state card">
+          <h2>等待上传数据</h2>
+          <p>预测完成后将展示候选分布、排序明细和导出入口。</p>
+        </section>
+
+        <section id="results" class="results hidden">
+          <section class="result-grid">
+            <div class="card chart-card">
+              <div class="section-head">
+                <h2>Top 候选分布</h2>
+                <span>预测活性降序</span>
+              </div>
+              <canvas id="scoreChart" width="820" height="320"></canvas>
+            </div>
+
+            <div class="card export-card">
+              <h2>导出结果</h2>
+              <p id="reportText">导出的 CSV 会保留原始字段，并追加预测结果。</p>
+              <a id="downloadAll" class="primary-link full" href="#">导出 CSV</a>
+            </div>
+          </section>
+
+          <section class="card table-card">
+            <div class="section-head">
+              <h2>候选排序明细</h2>
+              <span>前 80 条</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>排名</th>
+                    <th>突变体</th>
+                    <th>真实活性</th>
+                    <th>预测活性</th>
+                    <th>预测误差</th>
+                    <th>家族支持</th>
+                    <th>来源</th>
+                  </tr>
+                </thead>
+                <tbody id="resultRows"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>预测结果可视化</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="viz-hero">
+      <div>
+        <p class="eyebrow">Prediction dashboard</p>
+        <h1>预测结果可视化</h1>
+        <p class="subhead">基于已有 prediction 结果展示候选排序、分数分布、热点突变位点和家族支持关系。</p>
+      </div>
+      <label class="source-select">
+        <span>结果来源</span>
+        <select id="sourceSelect">
+          <option value="esm">ESM + XGBoost 预测结果</option>
+          <option value="family">家族模型预测结果</option>
+          <option value="family_candidates">家族支持候选结果</option>
+        </select>
+      </label>
+    </header>
+
+    <section class="viz-stats">
+      <div><span>候选总数</span><strong id="vizTotal">-</strong></div>
+      <div><span>最高预测值</span><strong id="vizTop">-</strong></div>
+      <div><span>中位预测值</span><strong id="vizMedian">-</strong></div>
+      <div><span>平均预测值</span><strong id="vizMean">-</strong></div>
+    </section>
+
+    <section class="viz-grid">
+      <article class="card viz-card wide">
+        <div class="section-head">
+          <h2>Top 候选排序</h2>
+          <span id="scoreLabel">预测分数</span>
+        </div>
+        <canvas id="topChart" width="1040" height="460"></canvas>
+      </article>
+
+      <article class="card viz-card">
+        <div class="section-head">
+          <h2>分数分布</h2>
+          <span>Histogram</span>
+        </div>
+        <canvas id="histChart" width="520" height="360"></canvas>
+      </article>
+
+      <article class="card viz-card">
+        <div class="section-head">
+          <h2>热点突变位点</h2>
+          <span>Top positions</span>
+        </div>
+        <canvas id="positionChart" width="520" height="360"></canvas>
+      </article>
+
+      <article class="card viz-card wide">
+        <div class="section-head">
+          <h2>家族支持与预测值</h2>
+          <span id="supportNote">family support</span>
+        </div>
+        <canvas id="supportChart" width="1040" height="360"></canvas>
+      </article>
+    </section>
+
+    <section class="card table-card">
+      <div class="section-head">
+        <h2>Top 候选明细</h2>
+        <span id="fileName">-</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>排名</th>
+              <th>突变体</th>
+              <th>预测值</th>
+              <th>家族支持</th>
+              <th>来源</th>
+            </tr>
+          </thead>
+          <tbody id="topRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast hidden"></div>
+  <script src="{{ url_for('static', filename='results.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 101-844-536
+127.0.0.1 - - [07/May/2026 21:54:34] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 21:56:16] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 21:56:16] "GET /static/styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 21:56:16] "GET /static/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 21:56:20] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [07/May/2026 21:57:07] "POST /api/predict HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 21:57:55] "GET /api/download/57acaa428fd7/filtered HTTP/1.1" 200 -
+ * Detected change in 'G:\\ugt_ml\\app.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 101-844-536
+127.0.0.1 - - [07/May/2026 22:02:06] "GET / HTTP/1.1" 200 -
+ * Detected change in 'G:\\ugt_ml\\app.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 101-844-536
+127.0.0.1 - - [07/May/2026 22:05:10] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:05:10] "GET /static/styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:05:10] "GET /static/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:05:30] "POST /api/predict HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:05:50] "POST /api/predict HTTP/1.1" 200 -
+ * Detected change in 'G:\\ugt_ml\\app.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 101-844-536
+ * Detected change in 'G:\\ugt_ml\\app.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 101-844-536
+127.0.0.1 - - [07/May/2026 22:15:39] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:16:45] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:47:35] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:47:35] "GET /static/styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:47:35] "GET /static/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:47:37] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [07/May/2026 22:47:42] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:47:42] "GET /static/styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:47:42] "GET /static/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:47:43] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [07/May/2026 22:48:02] "POST /api/predict HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:52:20] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:52:50] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:52:50] "GET /static/styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:52:50] "GET /static/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:53:05] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:53:05] "GET /static/styles.css HTTP/1.1" 304 -
+127.0.0.1 - - [07/May/2026 22:53:05] "GET /static/app.js HTTP/1.1" 304 -
+127.0.0.1 - - [07/May/2026 22:55:33] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:56:09] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:56:09] "GET /static/styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:56:10] "GET /static/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:56:10] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [07/May/2026 22:56:47] "POST /api/predict HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:57:39] "POST /api/predict HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:57:48] "POST /api/predict HTTP/1.1" 200 -
+127.0.0.1 - - [07/May/2026 22:58:04] "POST /api/predict HTTP/1.1" 200 -
+ * Detected change in 'G:\\ugt_ml\\app.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 101-844-536
+127.0.0.1 - - [07/May/2026 23:04:09] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [08/May/2026 11:40:49] "POST /api/predict HTTP/1.1" 200 -
+ * Detected change in 'G:\\ugt_ml\\app.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 101-844-536
+127.0.0.1 - - [08/May/2026 11:46:32] "GET /prediction-results HTTP/1.1" 200 -
