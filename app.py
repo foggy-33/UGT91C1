@@ -7,6 +7,8 @@ from pathlib import Path
 import joblib
 import numpy as np
 import pandas as pd
+import torch
+import esm
 from flask import Flask, jsonify, render_template, request, send_file
 from sklearn.base import clone
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -21,8 +23,8 @@ if str(SCRIPTS_DIR) not in sys.path:
 from prior_features import PriorFeatureBuilder  # noqa: E402
 
 
-MODEL_PATH = BASE_DIR / "models" / "xgb_family_priors.pkl"
-METRICS_PATH = BASE_DIR / "results" / "family_model_cv_metrics.csv"
+MODEL_PATH = BASE_DIR / "models" / "xgb_esm.pkl"
+METRICS_PATH = None
 OUTPUT_DIR = BASE_DIR / "results" / "web_predictions"
 ALLOWED_EXTENSIONS = {".csv"}
 RESULT_SOURCES = {
@@ -38,6 +40,12 @@ model_pack = joblib.load(MODEL_PATH)
 xgb_model = model_pack["model"] if isinstance(model_pack, dict) else model_pack
 model_meta = model_pack if isinstance(model_pack, dict) else {}
 prior_builder = PriorFeatureBuilder(BASE_DIR)
+ESM_DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+ESM_MODEL, ESM_ALPHABET = esm.pretrained.esm2_t33_650M_UR50D()
+ESM_MODEL = ESM_MODEL.to(ESM_DEVICE)
+ESM_MODEL.eval()
+ESM_BATCH_CONVERTER = ESM_ALPHABET.get_batch_converter()
+ESM_BATCH_SIZE = 4
 JOBS = {}
 
 
@@ -57,7 +65,7 @@ def _model_evaluation():
     std_rmse = float(np.std(folds)) if folds else 0.0
     n_train = None
 
-    if METRICS_PATH.exists():
+    if METRICS_PATH and METRICS_PATH.exists():
         try:
             metrics = pd.read_csv(METRICS_PATH)
             if len(metrics):
@@ -187,11 +195,19 @@ def _prepare_candidates(df):
     df.columns = [str(c).strip() for c in df.columns]
     if "variant" not in df.columns:
         raise ValueError("CSV 至少需要包含 variant 列，例如 F208M 或 F208M;V129A。")
+    if "sequence" not in df.columns:
+        raise ValueError("CSV 必须包含 sequence 列用于生成 ESM embedding。")
 
     df["variant"] = df["variant"].astype(str).str.strip()
     df = df[df["variant"].ne("") & df["variant"].str.lower().ne("nan")].reset_index(drop=True)
     if df.empty:
         raise ValueError("没有找到有效的突变体记录。")
+
+    df["sequence"] = df["sequence"].astype(str).str.strip()
+    seq_mask = df["sequence"].ne("") & df["sequence"].str.lower().ne("nan")
+    if not seq_mask.all():
+        missing = int((~seq_mask).sum())
+        raise ValueError(f"发现 {missing} 条记录缺少 sequence，无法生成 embedding。")
 
     if "mutation_list" not in df.columns:
         df["mutation_list"] = df["variant"].str.replace("-", ";", regex=False)
@@ -215,6 +231,7 @@ def _records_for_ui(df, limit=80):
         "mutation_list",
         "activity_rel",
         "activity",
+        "pred_activity",
         "pred_activity_family",
         "cv_pred_activity",
         "cv_error",
@@ -322,6 +339,22 @@ def _result_summary(source):
     }
 
 
+def _build_esm_embeddings(df: pd.DataFrame):
+    sequences = df["sequence"].tolist()
+    embeddings = []
+    with torch.no_grad():
+        for start in range(0, len(sequences), ESM_BATCH_SIZE):
+            batch = [("protein", s) for s in sequences[start:start + ESM_BATCH_SIZE]]
+            _, _, tokens = ESM_BATCH_CONVERTER(batch)
+            tokens = tokens.to(ESM_DEVICE)
+            out = ESM_MODEL(tokens, repr_layers=[33])
+            reps = out["representations"][33]
+            for i in range(reps.shape[0]):
+                emb = reps[i, 1:-1].mean(0).float().cpu().numpy()
+                embeddings.append(emb)
+    return np.vstack(embeddings)
+
+
 def _prediction_payload(raw_df, progress=None):
     def report(step, message):
         if progress is not None:
@@ -330,20 +363,28 @@ def _prediction_payload(raw_df, progress=None):
     report(0, "读取上传 CSV")
     df = _prepare_candidates(raw_df)
 
-    report(1, "构建模型特征")
+    report(1, "生成 ESM embedding")
+    x_esm = _build_esm_embeddings(df)
+    esm_dim = model_meta.get("esm_dim")
+    if esm_dim is not None and int(x_esm.shape[1]) != int(esm_dim):
+        raise ValueError(f"ESM embedding 维度不匹配：期望 {esm_dim}，实际 {x_esm.shape[1]}")
+
+    report(2, "构建模型特征")
     x_prior, feature_names = prior_builder.build_matrix(df)
+    x_all = np.hstack([x_esm, x_prior])
 
-    report(2, "执行五折预测")
-    upload_eval, cv_rows = _run_upload_cv(x_prior, df)
+    report(3, "执行五折预测")
+    upload_eval, cv_rows = _run_upload_cv(x_all, df)
 
-    report(3, "生成活性排序")
-    pred = cv_rows["cv_pred_activity"].to_numpy(dtype=float) if cv_rows is not None else xgb_model.predict(x_prior)
+    report(4, "生成活性排序")
+    pred = cv_rows["cv_pred_activity"].to_numpy(dtype=float) if cv_rows is not None else xgb_model.predict(x_all)
     out = cv_rows.copy() if cv_rows is not None else df.copy()
+    out["pred_activity"] = pred
     out["pred_activity_family"] = pred
     out = out.sort_values("pred_activity_family", ascending=False).reset_index(drop=True)
     out["rank"] = np.arange(1, len(out) + 1)
 
-    report(4, "写入预测报告")
+    report(5, "写入预测报告")
     run_id = uuid.uuid4().hex[:12]
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     all_path = OUTPUT_DIR / f"{run_id}_all.csv"
@@ -357,7 +398,7 @@ def _prediction_payload(raw_df, progress=None):
         "run_id": run_id,
         "counts": {
             "input": int(len(df)),
-            "features": int(len(feature_names)),
+            "features": int(x_all.shape[1]),
         },
         "summary": {
             "top_score": top_score,

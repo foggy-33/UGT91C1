@@ -327,7 +327,7 @@ python scripts/train_predict_family_model.py
 - `results/predictions_family_model_filtered_by_ddg.csv`
 - `results/family_model_cv_metrics.csv`
 
-## 十六、项目预测过程逻辑（详细版）
+## 十六、项目预测过程逻辑
 
 本节描述当前项目从“候选突变体”到“预测结果文件”的完整链路，便于排查结果差异与口径问题。
 

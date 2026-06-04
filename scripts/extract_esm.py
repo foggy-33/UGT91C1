@@ -12,7 +12,7 @@ OUT_X = BASE_DIR / "data" / "X_esm.npy"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print("Device:", device)
 
-# 650M模型：效果好但更吃显存；4060一般能跑（序列不太长时）
+# 650M模型：效果好但更吃显存；
 model, alphabet = esm.pretrained.esm2_t33_650M_UR50D()
 model = model.to(device)
 model.eval()
