@@ -1,0 +1,17 @@
+[theme]
+base = "light"
+primaryColor = "#1f4e9c"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#eef2f8"
+textColor = "#0f1720"
+linkColor = "#1f4e9c"
+borderColor = "#dbe4ef"
+
+[server]
+port = 8501
+headless = true
+# 共享部署时限制上传体积，避免有人误传大文件把服务卡住（本平台只上传 CSV，几十 KB 足够）
+maxUploadSize = 50
+
+[browser]
+gatherUsageStats = false

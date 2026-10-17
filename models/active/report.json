@@ -1,0 +1,91 @@
+{
+  "generated_at": "2026-10-16T22:26:24",
+  "mode": "eval-only",
+  "eval_model": "models\\xgb_esm.pkl",
+  "dataset": "D:\\2pythonwork\\experiment\\protein\\UGT91C1\\data\\train_dataset.csv",
+  "dataset_rows": 67,
+  "batches": [
+    "A",
+    "B"
+  ],
+  "cv_protocol": "leave-one-site-out",
+  "model_params": {
+    "n_estimators": 600,
+    "max_depth": 4,
+    "learning_rate": 0.05,
+    "subsample": 0.9,
+    "colsample_bytree": 0.9,
+    "reg_lambda": 1.0,
+    "random_state": 42
+  },
+  "metrics": {
+    "spearman_pooled": 0.303399,
+    "spearman_macro": 0.314329,
+    "auc_pooled": 0.668945,
+    "auc_macro": 0.663023,
+    "recall5_macro": 0.3,
+    "recall10_macro": 0.4
+  },
+  "metrics_full": {
+    "spearman_pooled": 0.303399,
+    "auc_pooled": 0.668945,
+    "recall5_pooled": 0.0,
+    "recall10_pooled": 0.1,
+    "spearman_macro": 0.314329,
+    "auc_macro": 0.663023,
+    "recall5_macro": 0.3,
+    "recall10_macro": 0.4
+  },
+  "n_sites": 27,
+  "n_variants": 64,
+  "rmse": 0.973957,
+  "rmse_all": [
+    0.85859,
+    0.877358,
+    1.044848,
+    1.199012,
+    0.889976
+  ],
+  "r2": 0.282831,
+  "by_batch": {
+    "A": {
+      "n": 18,
+      "spearman": 0.373523,
+      "auc": 0.676923,
+      "recall5": 0.4,
+      "recall10": 0.7
+    },
+    "B": {
+      "n": 46,
+      "spearman": 0.255135,
+      "auc": 0.649123,
+      "recall5": 0.2,
+      "recall10": 0.1
+    }
+  },
+  "by_n_mut": {
+    "1": {
+      "n": 18,
+      "spearman": 0.373523,
+      "auc": 0.676923,
+      "recall5": 0.4,
+      "recall10": 0.7
+    },
+    "2": {
+      "n": 36,
+      "spearman": 0.17135,
+      "auc": 0.555556,
+      "recall5": 0.0,
+      "recall10": 0.3
+    },
+    "3+": {
+      "n": 10,
+      "spearman": 0.163636,
+      "auc": 0.888889,
+      "recall5": 0.4,
+      "recall10": 1.0
+    }
+  },
+  "grid": null,
+  "adopted": false
+}

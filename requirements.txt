@@ -1,4 +1,5 @@
-flask
+streamlit
+altair
 joblib
 numpy
 pandas

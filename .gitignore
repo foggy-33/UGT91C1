@@ -1,0 +1,27 @@
+# Python 缓存
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# 虚拟环境
+.venv/
+venv/
+env/
+
+# 编辑器 / IDE
+.vscode/
+.idea/
+
+# Office 临时锁文件
+~$*
+
+# 本地 Agent 工作目录与生成的分享包
+.trae/
+.trae-html-share-packages/
+
+# 部署口令：只放在本机，不要提交
+.streamlit/secrets.toml
+
+# ESM 权重缓存：体积约 2.5GB，不入库
+models/torch_cache/
